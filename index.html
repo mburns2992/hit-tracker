@@ -104,6 +104,7 @@ const PHASES={
         {name:'Standing Calf Raise',muscle:'Calves',notes:'10-15 full stretch + hold'},
         {name:'Tricep Pushdown',muscle:'Triceps',notes:'8-12 reps to failure'},
         {name:'Barbell Curl',muscle:'Biceps',notes:'6-10 + static hold finish (10-20 sec at 90°)'},
+        {name:'Weighted Ab Machine',muscle:'Abs',notes:'12-20 reps to failure, controlled tempo, full contraction'},
       ]
     }
   },
@@ -166,16 +167,21 @@ const CARDIO_TYPES=["Elliptical (low)","HIT Airdyne (6 min)","Walking","Running"
 
 // ─── Food DB: Cafeteria + Home + Primal staples ───
 const FOOD_DB={
-  // Cafeteria items
-  "yogurt chicken":{cal:300,protein:29,carbs:3,fat:18,per:"4 oz serving"},
-  "herbed salmon":{cal:330,protein:24,carbs:2,fat:25,per:"4 oz serving"},
+  // Cafeteria items — current rotation (low sodium, fat-loss optimized)
+  "ancho lime chicken":{cal:150,protein:26,carbs:0.1,fat:3.75,per:"4 oz serving"},
+  "grilled salmon":{cal:200,protein:18,carbs:0.1,fat:13.75,per:"entree serving"},
+  "cucumber garbanzo salad":{cal:25,protein:1.3,carbs:4.6,fat:0.3,per:"1/4 cup"},
   "med veggie medley":{cal:100,protein:2,carbs:12,fat:5,per:"4 oz serving"},
   "roasted red potatoes":{cal:160,protein:3,carbs:20,fat:8,per:"4 oz serving"},
+  // Cafeteria items — legacy/backup (higher sodium, kept for historical logging)
+  "yogurt chicken":{cal:300,protein:29,carbs:3,fat:18,per:"4 oz serving"},
+  "herbed salmon":{cal:330,protein:24,carbs:2,fat:25,per:"4 oz serving"},
   "crumbled feta":{cal:40,protein:3,carbs:0.5,fat:3,per:"4 oz serving"},
-  // Cafeteria presets
-  "lean day plate":{cal:1000,protein:89,carbs:21,fat:59,per:"3 chicken + 1 veggie"},
-  "hit day plate":{cal:860,protein:63,carbs:35,fat:49,per:"2 chicken + 1 veggie + 1 potato"},
-  "salmon day plate":{cal:730,protein:55,carbs:17,fat:48,per:"1 salmon + 1 chicken + 1 veggie"},
+  // Cafeteria preset plates
+  "lean day plate":{cal:500,protein:81,carbs:10,fat:12,per:"3 ancho lime + 2 garbanzo"},
+  "hit day plate":{cal:560,protein:57,carbs:33,fat:16.5,per:"2 ancho lime + 1 veggie + 1 potato"},
+  "salmon day plate":{cal:525,protein:72,carbs:5,fat:22,per:"1 grilled salmon + 2 ancho lime + 1 garbanzo"},
+  "rest day plate":{cal:325,protein:54,carbs:5,fat:8,per:"2 ancho lime + 1 garbanzo"},
   // Home proteins
   "eggs scrambled":{cal:180,protein:12,carbs:1,fat:14,per:"2 large in olive oil"},
   "chicken strips":{cal:165,protein:31,carbs:0,fat:3.6,per:"5 oz"},
@@ -576,9 +582,10 @@ function renderNutrition(){
   if(isOffice){
     frag.appendChild(secTitle('Work Cafeteria Quick-Add (50% off)'));
     const presets=[
-      {name:'Lean Day Plate',desc:'3 Chicken + 1 Veggie — $5.92',cal:1000,protein:89,carbs:21,fat:59},
-      {name:'HIT Day Plate',desc:'2 Chicken + 1 Veggie + 1 Potato — $5.78',cal:860,protein:63,carbs:35,fat:49},
-      {name:'Salmon Day Plate',desc:'1 Salmon + 1 Chicken + 1 Veggie — $7.94',cal:730,protein:55,carbs:17,fat:48},
+      {name:'Lean Day (Mon)',desc:'3 Ancho Lime + 2 Garbanzo Salad — $10.70',cal:500,protein:81,carbs:10,fat:12},
+      {name:'HIT Day (Tue/Wed)',desc:'2 Ancho Lime + 1 Veggie + 1 Potato — $7.60',cal:560,protein:57,carbs:33,fat:16.5},
+      {name:'Salmon Day',desc:'1 Grilled Salmon + 2 Ancho Lime + 1 Garbanzo — $11.20',cal:525,protein:72,carbs:5,fat:22},
+      {name:'Rest/Light Day',desc:'2 Ancho Lime + 1 Garbanzo Salad — $6.85',cal:325,protein:54,carbs:5,fat:8},
     ];
     presets.forEach(p=>{
       const btn=h('button',{className:'preset-btn',onClick:()=>{
@@ -591,7 +598,7 @@ function renderNutrition(){
       ]);
       frag.appendChild(btn);
     });
-    frag.appendChild(h('div',{style:{fontSize:'10px',color:'var(--muted)',marginBottom:'12px'}},'Individual items: Yogurt Chicken (4oz), Herbed Salmon (4oz), Med Veggie (4oz), Red Potatoes (4oz), Feta (4oz) — search below'));
+    frag.appendChild(h('div',{style:{fontSize:'10px',color:'var(--muted)',marginBottom:'12px'}},'Individual items: Ancho Lime Chicken, Grilled Salmon, Cucumber Garbanzo Salad, Med Veggie Medley, Roasted Red Potatoes — search below. Yogurt Chicken & Herbed Salmon still in DB.'));
   }
 
   if(dow===0){
